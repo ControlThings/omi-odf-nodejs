@@ -1,0 +1,20 @@
+{
+  "name": "omi-odf",
+  "version": "0.1.0",
+  "description": "O-MI/O-DF WebSocket client tested with the reference implementation.",
+  "main": "index.js",
+  "dependencies": {
+    "debug": "2.2.0",
+    "ws": "1.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ControlThings/omi-odf-nodejs.git"
+  },
+  "keywords": [
+    "o-mi",
+    "o-df"
+  ],
+  "author": "André Kaustell <andre.kaustell@controlthings.fi",
+  "license": "Apache-2.0"
+}
