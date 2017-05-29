@@ -1,8 +1,5 @@
 var js2xmlparser = require("js2xmlparser");
 var parseString = require('xml2js').parseString;
-var util = require('util');
-var inspect = util.inspect;
-var fs = require('fs');
 
 function Omi() {
     
