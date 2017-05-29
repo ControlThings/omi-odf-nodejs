@@ -2,7 +2,7 @@
   "name": "omi-odf",
   "version": "0.1.0",
   "description": "O-MI/O-DF WebSocket client tested with the reference implementation.",
-  "main": "index.js",
+  "main": "src/index.js",
   "dependencies": {
     "debug": "2.2.0",
     "ws": "1.1.1"

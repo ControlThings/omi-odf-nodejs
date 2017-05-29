@@ -41,11 +41,7 @@ The first startup will take some few minutes to start, be patient.
 
 ### Run the example
 
-¡ This does not exist yet !
-
-```sh
-git clone https://github.com/ControlThings/omi-odf-nodejs.git
-```
+Create a working directory for your project and install this package there.
 
 ```sh
 npm install omi-odf
@@ -96,5 +92,15 @@ Run the program:
 ```sh
 node app.js
 ```
+
+
+## Develop
+
+This code is available at GitHub:
+
+```sh
+git clone https://github.com/ControlThings/omi-odf-nodejs.git
+```
+
 
 
