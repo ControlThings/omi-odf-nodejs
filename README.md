@@ -9,8 +9,12 @@ This is a very simplistic WebSocket based client for communicating with a O-MI N
 Download the reference server implementation from:
 
 ```sh
-https://github.com/AaltoAsia/O-MI
+https://github.com/AaltoAsia/O-MI/releases
 ```
+
+We used this one: https://github.com/AaltoAsia/O-MI/releases/download/0.8.2/o-mi-node-0.8.2-warp10.tgz
+
+Extract it to an appropriate location.
 
 Edit the `configs/application.conf`. Ensure the localhost is not commented out in the IP whitelist section.
 
