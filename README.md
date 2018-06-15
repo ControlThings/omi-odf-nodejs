@@ -16,7 +16,7 @@ We used this one: https://github.com/AaltoAsia/O-MI/releases/download/0.8.2/o-mi
 
 Extract it to an appropriate location.
 
-Edit the `configs/application.conf`. Ensure the localhost is not commented out in the IP whitelist section.
+Edit the `conf/application.conf`. Ensure the localhost is not commented out in the IP whitelist section.
 
 ```sh
 input-whitelist-ips=[	
