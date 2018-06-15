@@ -25,8 +25,10 @@ function OmiClient(host, opts) {
         
         // set up a recurring request to stop the link from timing out on the server side.
         if (self.ping) { clearInterval(self.ping); }
+
+        function noop(){};
         self.ping = setInterval(function() {
-            self.ws.send(Omi.read('Ping', 'Connected'));
+            self.ws.ping(noop);
         }, 30000);
     });
 
