@@ -269,16 +269,31 @@ OmiClient.prototype.parseSubscription = function(data) {
                     }
                 };
 
-                if(type === 'xs:boolean') {
-                    out[key].value = (value === 'false') ? false : true;
-                } else if ( type === 'xs:decimal' || type === 'xs:double') {
-                    out[key].value = parseFloat(cur[0].InfoItem[0].value[0]._);
-                } else if ( type === 'xs:integer') {
-                    out[key].value = parseInt(cur[0].InfoItem[0].value[0]._);
-                } else if ( type === 'xs:string') {
-                    out[key].value = cur[0].InfoItem[0].value[0]._;
-                } else {
-                    console.log("parseSubscription: unknown type:", type);
+                switch(type) {
+                    case 'xs:boolean':
+                        out[key].value = (value === 'false') ? false : true;
+                        break;
+
+                    case 'xs:decimal':
+                    case 'xs:double':
+                    case 'xs:float':
+                        out[key].value = parseFloat(cur[0].InfoItem[0].value[0]._);
+                        break;
+
+                    case 'xs:integer':
+                    case 'xs:int':
+                    case 'xs:long':
+                        out[key].value = parseInt(cur[0].InfoItem[0].value[0]._);
+                        break;
+
+                    case 'xs:string':
+                    case undefined:
+                        out[key].value = cur[0].InfoItem[0].value[0]._;
+                        break;
+
+                    default:
+                        console.log("parseSubscription: unknown type:", type);
+                        break;
                 }
             }
         }
