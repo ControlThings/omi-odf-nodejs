@@ -35,14 +35,14 @@ function OmiClient(host, opts) {
         
         //console.log('message', require('util').inspect(res, 10, null, true));
             
-        if (!res['omi:omiEnvelope']['omi:response'][0]['omi:result'][0]['omi:msg']) {
-            //console.log('Expecting responses (omi:omiEnvelope => omi:response => omi:result => omi:msg), but got something else', require('util').inspect(res, 10, null, true));
+        if (!res['omiEnvelope']['response'][0]['result'][0]['msg']) {
+            //console.log('Expecting responses (omiEnvelope => response => result => msg), but got something else', require('util').inspect(res, 10, null, true));
             return;
         }
         
         try {
-            self.subscription = parseInt(res['omi:omiEnvelope']['omi:response'][0]['omi:result'][0]['omi:requestID'][0]);
-            if ( self.subscription && self.subscriptionCb && res['omi:omiEnvelope']['omi:response'][0]['omi:result'][0]['omi:msg'] ) {
+            self.subscription = parseInt(res['omiEnvelope']['response'][0]['result'][0]['requestID'][0]);
+            if ( self.subscription && self.subscriptionCb && res['omiEnvelope']['response'][0]['result'][0]['msg'] ) {
                 self.parseSubscription(res);
             }
             return;
@@ -127,7 +127,7 @@ OmiClient.prototype.parseModel = function(data) {
             }
         }
 
-        var cur = data['omi:omiEnvelope']['omi:response'][0]['omi:result'][0]['omi:msg'][0].Objects;
+        var cur = data['omiEnvelope']['response'][0]['result'][0]['msg'][0].Objects;
         var out = {};
         var l = [];
         while( true ) {
@@ -183,7 +183,7 @@ OmiClient.prototype.parseRead = function(data) {
             }
         }
 
-        var cur = data['omi:omiEnvelope']['omi:response'][0]['omi:result'][0]['omi:msg'][0].Objects;
+        var cur = data['omiEnvelope']['response'][0]['result'][0]['msg'][0].Objects;
         var out = {};
         var l = [];
         while( true ) {
@@ -240,7 +240,7 @@ OmiClient.prototype.parseSubscription = function(data) {
             }
         }
 
-        var cur = data['omi:omiEnvelope']['omi:response'][0]['omi:result'][0]['omi:msg'][0].Objects;
+        var cur = data['omiEnvelope']['response'][0]['result'][0]['msg'][0].Objects;
         var out = {};
         var l = [];
         while( true ) {

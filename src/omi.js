@@ -13,22 +13,22 @@ Omi.read = function(path, infoitem, opts) {
     var req = {
         '@': {
             'xmlns:xs': "http://www.w3.org/2001/XMLSchema-instance",
-            'xmlns:omi': "omi.xsd",
+            'xmlns': "http://www.opengroup.org/xsd/omi/1.0/",
             version: "1.0",
             ttl: opts.ttl ? opts.ttl : "0"
         },
         "read": [
             {
                 "@": {
-                    xmlns: "omi.xsd",
+                    //xmlns: "http://www.opengroup.org/xsd/omi/1.0/",
                     msgformat: "odf"
                 },
-                "omi:msg": [
+                "msg": [
                     {
                         Objects: [
                             {
                                 "@": {
-                                    "xmlns": "odf.xsd"
+                                    "xmlns": "http://www.opengroup.org/xsd/odf/1.0/"
                                 }
                             }
                         ]
@@ -39,7 +39,7 @@ Omi.read = function(path, infoitem, opts) {
     };
     
 
-    var pos = req.read[0]['omi:msg'][0]['Objects'][0];
+    var pos = req.read[0]['msg'][0]['Objects'][0];
     
     for(var cur;(cur = path.shift());!cur) {
         var object = [{
@@ -63,24 +63,24 @@ Omi.subscribe = function(path, infoitem, opts) {
     var req = {
         '@': {
             'xmlns:xs': "http://www.w3.org/2001/XMLSchema-instance",
-            'xmlns:omi': "omi.xsd",
+            'xmlns': "http://www.opengroup.org/xsd/omi/1.0/",
             version: "1.0",
             ttl: opts.ttl ? opts.ttl : "0"
         },
         "read": [
             {
                 "@": {
-                    xmlns: "omi.xsd",
+                    //xmlns: "http://www.opengroup.org/xsd/omi/1.0/",
                     msgformat: "odf",
                     callback: opts.callback ? opts.callback : "0",
                     interval: opts.interval ? opts.interval : "-1"
                 },
-                "omi:msg": [
+                "msg": [
                     {
                         Objects: [
                             {
                                 "@": {
-                                    "xmlns": "odf.xsd"
+                                    "xmlns": "http://www.opengroup.org/xsd/odf/1.0/"
                                 }
                             }
                         ]
@@ -91,7 +91,7 @@ Omi.subscribe = function(path, infoitem, opts) {
     };
     
 
-    var pos = req.read[0]['omi:msg'][0]['Objects'][0];
+    var pos = req.read[0]['msg'][0]['Objects'][0];
     
     for(var cur;(cur = path.shift());!cur) {
         var object = [{
@@ -116,22 +116,22 @@ Omi.write = function(path, infoitem, value, opts) {
     var req = {
         '@': {
             'xmlns:xs': "http://www.w3.org/2001/XMLSchema-instance",
-            'xmlns:omi': "omi.xsd",
+            'xmlns': "http://www.opengroup.org/xsd/omi/1.0/",
             version: "1.0",
             ttl: opts.ttl ? opts.ttl : "0"
         },
         "write": [
             {
                 "@": {
-                    xmlns: "omi.xsd",
+                    //xmlns: "http://www.opengroup.org/xsd/omi/1.0/",
                     msgformat: "odf"
                 },
-                "omi:msg": [
+                "msg": [
                     {
                         Objects: [
                             {
                                 "@": {
-                                    "xmlns": "odf.xsd"
+                                    "xmlns": "http://www.opengroup.org/xsd/odf/1.0/"
                                 }                                
                             }
                         ]
@@ -142,7 +142,7 @@ Omi.write = function(path, infoitem, value, opts) {
     };
     
 
-    var pos = req.write[0]['omi:msg'][0]['Objects'][0];
+    var pos = req.write[0]['msg'][0]['Objects'][0];
     
     for(var cur;(cur = path.shift());!cur) {
         var object = [{
@@ -173,7 +173,7 @@ Omi.write = function(path, infoitem, value, opts) {
 };
 
 Omi.omiXml = function(req) {
-    return js2xmlparser("omi:omiEnvelope", req, { prettyPrinting: { indentString: '  ' } });
+    return js2xmlparser("omiEnvelope", req, { prettyPrinting: { indentString: '  ' } });
 };
 
 Omi.parse = function(req) {
