@@ -25,8 +25,10 @@ function OmiClient(host, opts) {
         
         // set up a recurring request to stop the link from timing out on the server side.
         if (self.ping) { clearInterval(self.ping); }
+
+        function noop(){};
         self.ping = setInterval(function() {
-            self.ws.send(Omi.read('Ping', 'Connected'));
+            self.ws.ping(noop);
         }, 30000);
     });
 
@@ -35,14 +37,14 @@ function OmiClient(host, opts) {
         
         //console.log('message', require('util').inspect(res, 10, null, true));
             
-        if (!res['omi:omiEnvelope']['omi:response'][0]['omi:result'][0]['omi:msg']) {
-            //console.log('Expecting responses (omi:omiEnvelope => omi:response => omi:result => omi:msg), but got something else', require('util').inspect(res, 10, null, true));
+        if (!res['omiEnvelope']['response'][0]['result'][0]['msg']) {
+            //console.log('Expecting responses (omiEnvelope => response => result => msg), but got something else', require('util').inspect(res, 10, null, true));
             return;
         }
         
         try {
-            self.subscription = parseInt(res['omi:omiEnvelope']['omi:response'][0]['omi:result'][0]['omi:requestID'][0]);
-            if ( self.subscription && self.subscriptionCb && res['omi:omiEnvelope']['omi:response'][0]['omi:result'][0]['omi:msg'] ) {
+            self.subscription = parseInt(res['omiEnvelope']['response'][0]['result'][0]['requestID'][0]);
+            if ( self.subscription && self.subscriptionCb && res['omiEnvelope']['response'][0]['result'][0]['msg'] ) {
                 self.parseSubscription(res);
             }
             return;
@@ -127,7 +129,7 @@ OmiClient.prototype.parseModel = function(data) {
             }
         }
 
-        var cur = data['omi:omiEnvelope']['omi:response'][0]['omi:result'][0]['omi:msg'][0].Objects;
+        var cur = data['omiEnvelope']['response'][0]['result'][0]['msg'][0].Objects;
         var out = {};
         var l = [];
         while( true ) {
@@ -183,7 +185,7 @@ OmiClient.prototype.parseRead = function(data) {
             }
         }
 
-        var cur = data['omi:omiEnvelope']['omi:response'][0]['omi:result'][0]['omi:msg'][0].Objects;
+        var cur = data['omiEnvelope']['response'][0]['result'][0]['msg'][0].Objects;
         var out = {};
         var l = [];
         while( true ) {
@@ -240,7 +242,7 @@ OmiClient.prototype.parseSubscription = function(data) {
             }
         }
 
-        var cur = data['omi:omiEnvelope']['omi:response'][0]['omi:result'][0]['omi:msg'][0].Objects;
+        var cur = data['omiEnvelope']['response'][0]['result'][0]['msg'][0].Objects;
         var out = {};
         var l = [];
         while( true ) {
@@ -267,16 +269,31 @@ OmiClient.prototype.parseSubscription = function(data) {
                     }
                 };
 
-                if(type === 'xs:boolean') {
-                    out[key].value = (value === 'false') ? false : true;
-                } else if ( type === 'xs:decimal' || type === 'xs:double') {
-                    out[key].value = parseFloat(cur[0].InfoItem[0].value[0]._);
-                } else if ( type === 'xs:integer') {
-                    out[key].value = parseInt(cur[0].InfoItem[0].value[0]._);
-                } else if ( type === 'xs:string') {
-                    out[key].value = cur[0].InfoItem[0].value[0]._;
-                } else {
-                    console.log("parseSubscription: unknown type:", type);
+                switch(type) {
+                    case 'xs:boolean':
+                        out[key].value = (value === 'false') ? false : true;
+                        break;
+
+                    case 'xs:decimal':
+                    case 'xs:double':
+                    case 'xs:float':
+                        out[key].value = parseFloat(cur[0].InfoItem[0].value[0]._);
+                        break;
+
+                    case 'xs:integer':
+                    case 'xs:int':
+                    case 'xs:long':
+                        out[key].value = parseInt(cur[0].InfoItem[0].value[0]._);
+                        break;
+
+                    case 'xs:string':
+                    case undefined:
+                        out[key].value = cur[0].InfoItem[0].value[0]._;
+                        break;
+
+                    default:
+                        console.log("parseSubscription: unknown type:", type);
+                        break;
                 }
             }
         }
