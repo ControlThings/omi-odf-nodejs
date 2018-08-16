@@ -4,10 +4,10 @@
   "description": "O-MI/O-DF WebSocket client tested with the reference implementation.",
   "main": "src/index.js",
   "dependencies": {
-    "debug": "2.2.0",
+    "debug": "3.1.0",
     "js2xmlparser": "1.0.0",
-    "xml2js": "^0.4.19",
-    "ws": "1.1.1"
+    "ws": "1.1.1",
+    "xml2js": "^0.4.19"
   },
   "repository": {
     "type": "git",
